@@ -3,7 +3,7 @@ package big_O_proj.In_class;
 public class method3_test {
     public static void main(String[] args) {
 
-        //System.out.println("Method 1:"); // Big O is O(1)
+        //System.out.println("Method 1:"); // Big O is O(log(n))
         //for (int n = 1; n < 1000; n++) {
             //System.out.println(n + "," + method1(n) + "," + Math.ceil(Math.log(n) / Math.log(2)));
         //}
@@ -11,7 +11,7 @@ public class method3_test {
         //System.out.println("Method 2:"); // Big O is O(n)
         //for (int n = 1; n < 1000; n++) {System.out.println(n + "\t" + method2(n) + "\t" + 2*n);}
 
-        System.out.println("Method 3:");
+        System.out.println("Method 3:"); // O(n)
         for (int n = 1; n < 1000; n++) {
             System.out.println(n + "\t" + method3(n) + "\t" + 2*Math.sqrt(n));
         }
