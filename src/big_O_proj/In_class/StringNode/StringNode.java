@@ -1,4 +1,4 @@
-package big_O_proj.In_class;
+package big_O_proj.In_class.StringNode;
 
 public class StringNode {
 
