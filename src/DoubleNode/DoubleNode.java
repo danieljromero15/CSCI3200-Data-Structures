@@ -1,5 +1,7 @@
 package DoubleNode;
 
+import java.util.ArrayList;
+
 public class DoubleNode {
     private double data;
     private DoubleNode link;
@@ -32,11 +34,15 @@ public class DoubleNode {
     }
 
     public void addNodeAfter(double item) {
-        link = new IntNode(item, link);
+        link = new DoubleNode(item, link);
     }
 
     public static DoubleNode listCopy(DoubleNode source) {
-
+        ArrayList<DoubleNode> sourceCopy = new ArrayList<>();
+        for(DoubleNode cursor = source; cursor.link != null; cursor = cursor.link){
+            sourceCopy.add(cursor);
+        }
+        return sourceCopy.get(0);
     }
 
 
@@ -79,7 +85,29 @@ public class DoubleNode {
 
 
     public static DoubleNode[] listCopyPart(DoubleNode start, DoubleNode end) {
+        DoubleNode copyHead, copyTail;
+        DoubleNode[] answer = new DoubleNode[2];
 
+        // Handle the special case of the empty list
+        if (start == null) {
+            return answer;
+        }
+
+        // Make the first node for the newly created list
+        copyHead = start;
+        copyTail = copyHead;
+
+        // Make the rest of the nodes for the newly created list
+        while (copyTail.link != end) {
+            copyTail = copyTail.link;
+            copyTail.addNodeAfter(copyHead.data);
+            copyTail = copyTail.link;
+        }
+
+        // Return the head and tail references
+        answer[0] = copyHead;
+        answer[1] = copyTail;
+        return answer;
     }
 
 
