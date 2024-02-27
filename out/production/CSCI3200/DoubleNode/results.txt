@@ -1,0 +1,49 @@
+Inital List:
+7.77
+42.69
+9.03
+2.5
+5.62
+
+After removing the second element:
+7.77
+9.03
+2.5
+5.62
+
+After changing the third element from 2.5 to 3.2:
+7.77
+9.03
+3.2
+5.62
+
+After adding a new node with value 100.07 at the end:
+7.77
+9.03
+3.2
+5.62
+100.07
+
+Printing a copy of the list:
+7.77
+9.03
+3.2
+5.62
+100.07
+
+Printing a copy of part of the list:
+9.03
+3.2
+5.62
+
+Finding 3.2:
+3.2
+
+Copy of the list with its tail:
+7.77
+9.03
+3.2
+5.62
+100.07
+
+List tail: 100.07
