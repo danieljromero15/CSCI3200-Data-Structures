@@ -46,13 +46,19 @@ public class Calculator {
         StringBuilder infix_no_spaces = new StringBuilder();
 
         for (int i = 0; i < infix.length(); i++) { // adds all chars that aren't spaces to the character array
-            if(!isSpace(infix.charAt(i))){infix_no_spaces.append(infix.charAt(i));}
+            if ((int) infix.charAt(i) == 8211 || (int) infix.charAt(i) == 8212) {
+                infix_no_spaces.append('-'); // makes en and em dashes hyphens
+            } else if (!isSpace(infix.charAt(i))) {
+                infix_no_spaces.append(infix.charAt(i));
+            }
         }
 
         char[] infixCharArray = infix_no_spaces.toString().toCharArray();
 
         for (int i = 0; i < infixCharArray.length; i++) {
             if (isNumber(infixCharArray[i])) {
+                //System.out.println("isnum: " + infixCharArray[i]);
+
                 StringBuilder tempNum = new StringBuilder(String.valueOf(infixCharArray[i]));
                 while (i + 1 < infixCharArray.length && isNumber(infixCharArray[i + 1])) {
                     tempNum.append(infixCharArray[++i]);
@@ -60,25 +66,28 @@ public class Calculator {
                 //postfixStack.push(tempNum.toString());
                 out.append(tempNum).append(" ");
             } else if (postfixStack.isEmpty() || isOpenPar(postfixStack.peek().charAt(0))) {
-                postfixStack.push(String.valueOf(infixCharArray[i]));
+                //System.out.println("isempty or openpar: " + infixCharArray[i]);
+
+                if (!isClosePar(infixCharArray[i])) {
+                    postfixStack.push(String.valueOf(infixCharArray[i]));
+                }
             } else if (isOpenPar(infixCharArray[i])) {
+                //System.out.println("isopen: " + infixCharArray[i]);
+
                 postfixStack.push(String.valueOf(infixCharArray[i]));
 
             } else if (isClosePar(infixCharArray[i])) {
+                //System.out.println("isclose: " + infixCharArray[i]);
+
                 while (!isOpenPar(postfixStack.peek().charAt(0))) {
                     out.append(postfixStack.pop()).append(" ");
                 }
             } else if (isBinOperator(infixCharArray[i])) {
-                if ((int) infixCharArray[i] == 8211 || (int) infixCharArray[i] == 8212) {
+                //System.out.println("isbin: " + infixCharArray[i]);
+                /*if ((int) infixCharArray[i] == 8211 || (int) infixCharArray[i] == 8212) {
                     infixCharArray[i] = (char) 45; // converts en and em dashes to hyphens
-                }
-
-                /*if (calcPrecedence(infixCharArray[i]) > calcPrecedence(postfixStack.peek().charAt(0))) {
-                    postfixStack.push(String.valueOf(infixCharArray[i]));
-                } else {
-                    out.append(postfixStack.pop()).append(" ");
-                    postfixStack.push(String.valueOf(infixCharArray[i]));
                 }*/
+
                 if (!(calcPrecedence(infixCharArray[i]) > calcPrecedence(postfixStack.peek().charAt(0)))) {
                     out.append(postfixStack.pop()).append(" ");
                 }
@@ -108,54 +117,75 @@ public class Calculator {
         return (int) test == 32;
     }
 
-    public static int postfix_evaluation(String postfix) {
-        Integer answer = null;
+    /*public static void test(String string, Stack<Double> stack) {
+        System.out.println("String: " + string + "\nStack: " + stack + "\n");
+    }*/
+
+    public static double postfix_evaluation(String postfix) {
         int i;
-        Stack<Integer> numeros = new Stack<>();
-        while (!(postfix.isEmpty())) {
+        double answer = -1;
+        Stack<Double> numeros = new Stack<>();
+
+        while (postfix.length() != 1) {
             i = 0;
 
-            //Applies first value to stack
-            if (answer == null) {
-                while (!isSpace(postfix.charAt(i)) && !(postfix.length() == i + 1)) {
-                    i++;
-                }
-                answer = Integer.valueOf(postfix.substring(0, i));
-                postfix = postfix.substring(i + 1);
-
-                //Operators Encountered
-            } else if (isBinOperator(postfix.charAt(i))) {
+            //Operators Encountered
+            if (isBinOperator(postfix.charAt(i))) {
+                Double num2 = numeros.pop();
+                Double num1 = numeros.pop();
                 if (postfix.charAt(i) == 43) { //+
-                    answer = answer + numeros.pop();
-                } else if (postfix.charAt(i) == 45) { //-
-                    answer = answer - numeros.pop();
+                    numeros.push(num1 + num2);
+                } else if (postfix.charAt(0) == 45 || postfix.charAt(0) == 8212 || postfix.charAt(0) == 8211) { //-
+                    numeros.push(num1 - num2);
                 } else if (postfix.charAt(i) == 42) { //*
-                    answer = answer * numeros.pop();
+                    numeros.push(num1 * num2);
                 } else if (postfix.charAt(i) == 47) { ///
-                    answer = answer / numeros.pop();
+                    numeros.push(num1 / num2);
                 }
 
-                if (!(postfix.length() == i + 1)) {
+                if (postfix.length() != 1) {
                     postfix = postfix.substring(i + 2);
                 }
+                //test(postfix, numeros);
 
 
                 //Pushes numbers to stack
-            } else if (isSpace(postfix.charAt(i))) {
-                i++;
             } else {
                 while (!isSpace(postfix.charAt(i)) && !(postfix.length() == i + 1)) {
                     i++;
                 }
-                numeros.push(Integer.valueOf(postfix.substring(0, i)));
+                numeros.push(Double.valueOf(postfix.substring(0, i)));
                 postfix = postfix.substring(i + 1);
-            }
-
-            //Checks if it needs to end
-            if (postfix.length() == i + 1) {
-                return answer;
+                //test(postfix, numeros);
             }
         }
-        return -1;
+
+        while (!numeros.isEmpty() && numeros.size() != 1) {
+            Double num2 = numeros.pop();
+            Double num1 = numeros.pop();
+            if (postfix.charAt(0) == 43) { //+
+                numeros.push(num1 + num2);
+            } else if (postfix.charAt(0) == 45 || postfix.charAt(0) == 8212 || postfix.charAt(0) == 8211) { //-
+                numeros.push(num1 - num2);
+            } else if (postfix.charAt(0) == 42) { //*
+                numeros.push(num1 * num2);
+            } else if (postfix.charAt(0) == 47) { ///
+                numeros.push(num1 / num2);
+            }
+
+            if (postfix.length() != 1) {
+                postfix = postfix.substring(1);
+            } else {
+                postfix = "";
+            }
+            //test(postfix, numeros);
+        }
+
+        if (numeros.size() == 1) {
+            answer = numeros.pop();
+        }
+        return answer;
+
+
     }
 }
