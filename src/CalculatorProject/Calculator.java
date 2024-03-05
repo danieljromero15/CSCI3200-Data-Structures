@@ -43,7 +43,13 @@ public class Calculator {
     static String infix_to_postfix(String infix) {
         StringBuilder out = new StringBuilder();
         Stack<String> postfixStack = new Stack<>();
-        char[] infixCharArray = infix.toCharArray();
+        StringBuilder infix_no_spaces = new StringBuilder();
+
+        for (int i = 0; i < infix.length(); i++) { // adds all chars that aren't spaces to the character array
+            if(!isSpace(infix.charAt(i))){infix_no_spaces.append(infix.charAt(i));}
+        }
+
+        char[] infixCharArray = infix_no_spaces.toString().toCharArray();
 
         for (int i = 0; i < infixCharArray.length; i++) {
             if (isNumber(infixCharArray[i])) {
@@ -60,7 +66,7 @@ public class Calculator {
 
             } else if (isClosePar(infixCharArray[i])) {
                 while (!isOpenPar(postfixStack.peek().charAt(0))) {
-                    out.append(postfixStack.pop());//.append(" ");
+                    out.append(postfixStack.pop()).append(" ");
                 }
             } else if (isBinOperator(infixCharArray[i])) {
                 if ((int) infixCharArray[i] == 8211 || (int) infixCharArray[i] == 8212) {
@@ -73,7 +79,7 @@ public class Calculator {
                     out.append(postfixStack.pop()).append(" ");
                     postfixStack.push(String.valueOf(infixCharArray[i]));
                 }*/
-                if(!(calcPrecedence(infixCharArray[i]) > calcPrecedence(postfixStack.peek().charAt(0)))) {
+                if (!(calcPrecedence(infixCharArray[i]) > calcPrecedence(postfixStack.peek().charAt(0)))) {
                     out.append(postfixStack.pop()).append(" ");
                 }
                 postfixStack.push(String.valueOf(infixCharArray[i]));
@@ -90,32 +96,36 @@ public class Calculator {
             }
         }
 
+        while (isSpace(out.charAt(out.length() - 1))) { // deletes any spaces at the end
+            out.deleteCharAt(out.length() - 1);
+        }
+
         return out.toString();
     }
 
     ////////////////////////////////// Aiden was here /////////////////////////////////////
-    static boolean isSpace(char test){
+    static boolean isSpace(char test) {
         return (int) test == 32;
     }
 
-    public static int postfix_evaluation(String postfix){
+    public static int postfix_evaluation(String postfix) {
         Integer answer = null;
         int i;
         Stack<Integer> numeros = new Stack<>();
-        while (!(postfix.isEmpty())){
+        while (!(postfix.isEmpty())) {
             i = 0;
 
             //Applies first value to stack
-            if(answer == null){
-                while(!isSpace(postfix.charAt(i)) && !(postfix.length() == i+1)){
+            if (answer == null) {
+                while (!isSpace(postfix.charAt(i)) && !(postfix.length() == i + 1)) {
                     i++;
                 }
-                answer = Integer.valueOf(postfix.substring(0,i));
-                postfix = postfix.substring(i+1);
+                answer = Integer.valueOf(postfix.substring(0, i));
+                postfix = postfix.substring(i + 1);
 
-            //Operators Encountered
-            } else if(isBinOperator(postfix.charAt(i))){
-                if(postfix.charAt(i) == 43){ //+
+                //Operators Encountered
+            } else if (isBinOperator(postfix.charAt(i))) {
+                if (postfix.charAt(i) == 43) { //+
                     answer = answer + numeros.pop();
                 } else if (postfix.charAt(i) == 45) { //-
                     answer = answer - numeros.pop();
@@ -125,22 +135,24 @@ public class Calculator {
                     answer = answer / numeros.pop();
                 }
 
-                if(!(postfix.length() == i+1)){
-                    postfix = postfix.substring(i+2);
+                if (!(postfix.length() == i + 1)) {
+                    postfix = postfix.substring(i + 2);
                 }
 
 
-            //Pushes numbers to stack
+                //Pushes numbers to stack
+            } else if (isSpace(postfix.charAt(i))) {
+                i++;
             } else {
-                while(!isSpace(postfix.charAt(i)) && !(postfix.length() == i+1)){
+                while (!isSpace(postfix.charAt(i)) && !(postfix.length() == i + 1)) {
                     i++;
                 }
-                numeros.push(Integer.valueOf(postfix.substring(0,i)));
-                postfix = postfix.substring(i+1);
+                numeros.push(Integer.valueOf(postfix.substring(0, i)));
+                postfix = postfix.substring(i + 1);
             }
 
             //Checks if it needs to end
-            if(postfix.length() == i+1){
+            if (postfix.length() == i + 1) {
                 return answer;
             }
         }
