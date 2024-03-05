@@ -1,5 +1,4 @@
 package CalculatorProject;
-
 // Infix to postfix by Daniel
 // Postfix eval by Aiden
 
@@ -94,9 +93,57 @@ public class Calculator {
         return out.toString();
     }
 
-    public static void main(String[] args) {
-        String result = infix_to_postfix("( 3 – 23 ) * 4 + 100"); // 3 23 - 4 * 100 +
+    ////////////////////////////////// Aiden was here /////////////////////////////////////
+    static boolean isSpace(char test){
+        return (int) test == 32;
+    }
 
-        System.out.println(result);
+    public static int postfix_evaluation(String postfix){
+        Integer answer = null;
+        int i;
+        Stack<Integer> numeros = new Stack<>();
+        while (!(postfix.isEmpty())){
+            i = 0;
+
+            //Applies first value to stack
+            if(answer == null){
+                while(!isSpace(postfix.charAt(i)) && !(postfix.length() == i+1)){
+                    i++;
+                }
+                answer = Integer.valueOf(postfix.substring(0,i));
+                postfix = postfix.substring(i+1);
+
+            //Operators Encountered
+            } else if(isBinOperator(postfix.charAt(i))){
+                if(postfix.charAt(i) == 43){ //+
+                    answer = answer + numeros.pop();
+                } else if (postfix.charAt(i) == 45) { //-
+                    answer = answer - numeros.pop();
+                } else if (postfix.charAt(i) == 42) { //*
+                    answer = answer * numeros.pop();
+                } else if (postfix.charAt(i) == 47) { ///
+                    answer = answer / numeros.pop();
+                }
+
+                if(!(postfix.length() == i+1)){
+                    postfix = postfix.substring(i+2);
+                }
+
+
+            //Pushes numbers to stack
+            } else {
+                while(!isSpace(postfix.charAt(i)) && !(postfix.length() == i+1)){
+                    i++;
+                }
+                numeros.push(Integer.valueOf(postfix.substring(0,i)));
+                postfix = postfix.substring(i+1);
+            }
+
+            //Checks if it needs to end
+            if(postfix.length() == i+1){
+                return answer;
+            }
+        }
+        return -1;
     }
 }
