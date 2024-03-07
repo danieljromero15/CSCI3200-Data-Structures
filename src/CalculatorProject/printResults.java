@@ -1,6 +1,6 @@
 package CalculatorProject;
 
-public class Main {
+public class printResults {
     public static void main(String[] args) {
         //String infix_string = "( 3 - 23 ) * 4 + 100 / 25 * 37";
         //String infix_string2 = "(3-23)*4+100/25*37";

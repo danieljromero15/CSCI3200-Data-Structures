@@ -1,0 +1,40 @@
+Infix: (3–23)*4+100
+Postfix: 3 23 - 4 * 100 +
+The input expression value is 20.0
+
+Infix: ( 3 - 23 ) * 4 + 100 / 25 * 37
+Postfix: 3 23 - 4 * 100 25 / 37 * +
+The input expression value is 68.0
+
+Infix: 137-47/3
+Postfix: 137 47 3 / -
+The input expression value is 121.33333333333333
+
+Infix: ((4+5) * (3-(8/4)))
+Postfix: 4 5 + 3 8 4 / - *
+The input expression value is 9.0
+
+Infix: ((8-(5*2))+(4*6)
+Postfix: 8 5 2 * 4 6 * + -
+The input expression value is -26.0
+
+Infix: 18 + 30 / (12 + 3) – 4
+Postfix: 18 30 12 3 + 4 - / +
+The input expression value is 20.727272727272727
+
+Infix: (20 – (1 + 6) * 2) / (1 + 2)
+Postfix: 20 1 6 + 2 * 1 2 + / -
+The input expression value is 15.333333333333332
+
+
+Evaluating Postfix:
+
+Postfix: 12 3 4 + * 2 / 5 –
+The input expression value is 37.0
+
+Postfix: 10 9 8 7 5 – / + *
+The input expression value is 130.0
+
+Postfix: 14 15 + 12 – 3 * 17 /
+The input expression value is 3.0
+
