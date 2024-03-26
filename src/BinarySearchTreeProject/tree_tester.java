@@ -7,13 +7,22 @@ public class tree_tester {
         root.getLeft().setLeft(new btnode_int(1));
         // TODO add more manually
 
+        System.out.println("Part 1 in-order-print:");
         root.inOrderPrint();
 
         System.out.println();
-        //System.out.println(btnode_int.Search_in_binary_tree(root, 1));
+        System.out.println("Part 2 result of search in binary search tree");
+        System.out.println("result: " + btnode_int.Search_in_binary_tree(root, 1));
 
+        System.out.println();
         int[] arr2 = {5, 3, 1, 9, 6, 4};
         btnode_int tree2 = build_tree(arr2);
+        System.out.println("Part 3 Original Array:");
+        for (int i : arr2) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        System.out.println("Part 3 in-order-print:");
         tree2.inOrderPrint();
     }
     

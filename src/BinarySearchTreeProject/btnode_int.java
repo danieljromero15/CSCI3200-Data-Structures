@@ -55,6 +55,7 @@ public class btnode_int {
     }
 
     public static btnode_int Search_in_binary_tree(btnode_int root, int key){
+        System.out.println(root);
         if(root == null || root.getData() == key){
             return root;
         }else if(key < root.getData()){
