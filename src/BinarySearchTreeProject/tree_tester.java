@@ -1,11 +1,12 @@
 package BinarySearchTreeProject;
-
 public class tree_tester {
     public static void main(String[] args) {
         btnode_int root = new btnode_int(5);
         root.setLeft(new btnode_int(3));
         root.getLeft().setLeft(new btnode_int(1));
-        // TODO add more manually
+        root.getLeft().setRight(new btnode_int(4));
+        root.setRight(new btnode_int(9));
+        root.getRight().setLeft(new btnode_int(6));
 
         System.out.println("Part 1 in-order-print:");
         root.inOrderPrint();
@@ -17,13 +18,24 @@ public class tree_tester {
         System.out.println();
         int[] arr2 = {5, 3, 1, 9, 6, 4};
         btnode_int tree2 = build_tree(arr2);
-        System.out.println("Part 3 Original Array:");
+        System.out.println("Part 3 Original Array 1:");
         for (int i : arr2) {
             System.out.print(i + " ");
         }
         System.out.println();
-        System.out.println("Part 3 in-order-print:");
+        System.out.println("Part 3 in-order-print 1:");
         tree2.inOrderPrint();
+
+        System.out.println();
+        int[] arr3 = {7, 4, 6, 3, 9, 11, 2, 5, 87, 28, 14, 66, 420, 72, 1};
+        btnode_int tree3 = build_tree(arr3);
+        System.out.println("Part 3 Original Array 2:");
+        for (int i : arr3) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        System.out.println("Part 3 in-order-print 2:");
+        tree3.inOrderPrint();
     }
     
     public static btnode_int build_tree(int[] arr){
