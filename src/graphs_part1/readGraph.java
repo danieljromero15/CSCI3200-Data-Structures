@@ -1,8 +1,6 @@
 package graphs_part1;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.LineNumberReader;
 import java.util.Scanner;
 import java.io.File;
 
@@ -10,9 +8,12 @@ public class readGraph {
     public static void main(String[] args) throws FileNotFoundException {
         int[][] graph = parseGraph(new File("src/graphs_part1/graph2.txt"));
 
-        for (int[] ints : graph) {
-            for (int j : ints) {
+        for (int[] i : graph) {
+            for (int j : i) {
                 System.out.print(j + " ");
+                if(j > 0){
+
+                }
             }
             System.out.println();
         }
@@ -25,7 +26,7 @@ public class readGraph {
         int h = 0;
         int w = 0;
 
-        for (int i = 0; scan.hasNextLine(); i++) {
+        while(scan.hasNextLine()) {
             in = scan.nextLine();
             String[] tempArray = in.split(",");
             w = tempArray.length;
