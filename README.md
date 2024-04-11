@@ -1,1 +1,1 @@
-CSCI3200 - Data Structures and Analysis
+Data Structures and Analysis of Algorithms, Spring 2024
